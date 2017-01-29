@@ -4,7 +4,7 @@ const gulp = require('gulp');
 const prepros = require('gulp-preprocess');
 const newer = require('gulp-newer')
 const sass = require('gulp-sass');
-const jshint = require('gulp-jshint');
+//const jshint = require('gulp-jshint');
 const prefix = require('gulp-autoprefixer');
 const imagemin = require('gulp-imagemin');
 const browsersync = require('browser-sync').create();
@@ -13,6 +13,7 @@ const uglify = require('gulp-uglify');
 const htmlclean = require('gulp-htmlclean');
 const cleanCSS = require('gulp-clean-css');
 const htmlhint = require("gulp-htmlhint");
+const babel = require('gulp-babel');
 
 
 //const concat = require('gulp-concat');
@@ -61,9 +62,12 @@ gulp.task('imagemin', function() {
 gulp.task('js', function (){
 	return gulp.src(['frontend/js/**/*', '!frontend/js/**/*.min.js'])
 		.pipe(newer('public/js'))
-		.pipe(jshint())
-		.pipe(jshint.reporter('default'))
-		.pipe(jshint.reporter('fail'))
+		.pipe(babel({
+            presets: ['es2015']
+        }))
+		//.pipe(jshint())
+		//.pipe(jshint.reporter('default'))
+		//.pipe(jshint.reporter('fail'))
 		.pipe(uglify())
 		.pipe(gulp.dest('public/js'));
 });
