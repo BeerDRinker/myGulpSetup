@@ -4,7 +4,6 @@ const gulp = require('gulp');
 const prepros = require('gulp-preprocess');
 const newer = require('gulp-newer')
 const sass = require('gulp-sass');
-//const jshint = require('gulp-jshint');
 const prefix = require('gulp-autoprefixer');
 const imagemin = require('gulp-imagemin');
 const browsersync = require('browser-sync').create();
@@ -65,9 +64,6 @@ gulp.task('js', function (){
 		.pipe(babel({
             presets: ['es2015']
         }))
-		//.pipe(jshint())
-		//.pipe(jshint.reporter('default'))
-		//.pipe(jshint.reporter('fail'))
 		.pipe(uglify())
 		.pipe(gulp.dest('public/js'));
 });
