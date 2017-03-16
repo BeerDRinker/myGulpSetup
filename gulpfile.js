@@ -14,6 +14,7 @@ const cleanCSS = require('gulp-clean-css');
 const htmlhint = require("gulp-htmlhint");
 const babel = require('gulp-babel');
 const gutil = require('gulp-util');
+const cssbeautify = require('gulp-cssbeautify');
 
 
 //const concat = require('gulp-concat');
@@ -27,14 +28,15 @@ gulp.task('clean', function() {
 
 // Compiling HTML
 gulp.task('html', function(){
-	gulp.src('frontend/html/index.html')
+	gulp.src('frontend/html/*.html')
 		.pipe(newer('public/**/*.html'))
 		.pipe(prepros())
 		.pipe(htmlhint())
 		.pipe(htmlhint.reporter())
 		//.pipe(htmlhint.failReporter())
-		.pipe(htmlclean())
-		.pipe(gulp.dest('public'));
+		//.pipe(htmlclean())
+		.pipe(gulp.dest('public'))
+		.pipe(browsersync.reload({stream: true}));
 });
 
 
@@ -43,7 +45,8 @@ gulp.task('sass', function () {
   return gulp.src('frontend/sass/style.scss')
     .pipe(sass().on('error', sass.logError))
   	.pipe(prefix('last 2 versions'))
-  	.pipe(cleanCSS({compatibility: 'ie8'}))
+  	//.pipe(cleanCSS({compatibility: 'ie8'}))
+	.pipe(cssbeautify())
     .pipe(gulp.dest('public/css'))
   	.pipe(browsersync.reload({stream: true}));
 });
@@ -74,8 +77,9 @@ gulp.task('js', function (){
                 gutil.log(gutil.colors.bold('codeframe:') + '\n' + codeFrame);
                 this.emit('end');
             })
-		.pipe(uglify())
-		.pipe(gulp.dest('public/js'));
+		//.pipe(uglify())
+		.pipe(gulp.dest('public/js'))
+		.pipe(browsersync.reload({stream: true}));
 });
 
 gulp.task('minJS', function() {
