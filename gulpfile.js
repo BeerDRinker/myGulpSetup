@@ -15,19 +15,20 @@ const htmlhint = require("gulp-htmlhint");
 const babel = require('gulp-babel');
 const gutil = require('gulp-util');
 const cssbeautify = require('gulp-cssbeautify');
+const csscomb = require('gulp-csscomb');
 
 
 //const concat = require('gulp-concat');
 
 
 //****** Gulp del, cleaning public folder ******
-gulp.task('clean', function() {
+gulp.task('clean', function () {
 	del('public/*');
 });
 
 
 // Compiling HTML
-gulp.task('html', function(){
+gulp.task('html', function () {
 	gulp.src('frontend/html/*.html')
 		.pipe(newer('public/**/*.html'))
 		.pipe(prepros())
@@ -36,53 +37,54 @@ gulp.task('html', function(){
 		//.pipe(htmlhint.failReporter())
 		//.pipe(htmlclean())
 		.pipe(gulp.dest('public'))
-		.pipe(browsersync.reload({stream: true}));
+		.pipe(browsersync.reload({ stream: true }));
 });
 
 
 //****** SASS compiling ******
 gulp.task('sass', function () {
-  return gulp.src('frontend/sass/style.scss')
-    .pipe(sass().on('error', sass.logError))
-  	.pipe(prefix('last 2 versions'))
-  	//.pipe(cleanCSS({compatibility: 'ie8'}))
-	.pipe(cssbeautify())
-    .pipe(gulp.dest('public/css'))
-  	.pipe(browsersync.reload({stream: true}));
+	return gulp.src('frontend/sass/style.scss')
+		.pipe(sass().on('error', sass.logError))
+		.pipe(prefix('last 2 versions'))
+		.pipe(csscomb())
+		.pipe(cssbeautify())
+		//.pipe(cleanCSS({compatibility: 'ie8'}))
+		.pipe(gulp.dest('public/css'))
+		.pipe(browsersync.reload({ stream: true }));
 });
 
 
 //****** Image minification ******
-gulp.task('imagemin', function() {
-    gulp.src('frontend/img/**/*')
+gulp.task('imagemin', function () {
+	gulp.src('frontend/img/**/*')
 		.pipe(newer('public/img/'))
-        .pipe(imagemin())
-        .pipe(gulp.dest('public/img/'));
+		.pipe(imagemin())
+		.pipe(gulp.dest('public/img/'));
 });
 
 
 //****** JavaScript compiling ******
-gulp.task('js', function (){
+gulp.task('js', function () {
 	return gulp.src(['frontend/js/**/*', '!frontend/js/**/*.min.js'])
 		.pipe(newer('public/js'))
 		.pipe(babel({
-            presets: ['es2015']
-        }))
-        .on('error', function(err) {
-                const message = err.message || '';
-                const errName = err.name || '';
-                const codeFrame = err.codeFrame || '';
-                gutil.log(gutil.colors.red.bold('[JS babel error]')+' '+ gutil.colors.bgRed(errName));
-                gutil.log(gutil.colors.bold('message:') +' '+ message);
-                gutil.log(gutil.colors.bold('codeframe:') + '\n' + codeFrame);
-                this.emit('end');
-            })
+			presets: ['es2015']
+		}))
+		.on('error', function (err) {
+			const message = err.message || '';
+			const errName = err.name || '';
+			const codeFrame = err.codeFrame || '';
+			gutil.log(gutil.colors.red.bold('[JS babel error]') + ' ' + gutil.colors.bgRed(errName));
+			gutil.log(gutil.colors.bold('message:') + ' ' + message);
+			gutil.log(gutil.colors.bold('codeframe:') + '\n' + codeFrame);
+			this.emit('end');
+		})
 		//.pipe(uglify())
 		.pipe(gulp.dest('public/js'))
-		.pipe(browsersync.reload({stream: true}));
+		.pipe(browsersync.reload({ stream: true }));
 });
 
-gulp.task('minJS', function() {
+gulp.task('minJS', function () {
 	return gulp.src('frontend/js/**/*.min.js')
 		.pipe(newer('public/js'))
 		.pipe(gulp.dest('public/js'));
@@ -90,7 +92,7 @@ gulp.task('minJS', function() {
 
 
 //****** Copy Fonts ******
-gulp.task('fonts', function() {
+gulp.task('fonts', function () {
 	gulp.src('frontend/fonts/**/*')
 		.pipe(newer('public/fonts'))
 		.pipe(gulp.dest('public/fonts'));
@@ -98,7 +100,7 @@ gulp.task('fonts', function() {
 
 
 //****** Browsersync ******
-gulp.task('browsersync', function() {
+gulp.task('browsersync', function () {
 	browsersync.init({
 		server: 'public'
 	});
@@ -107,18 +109,18 @@ gulp.task('browsersync', function() {
 
 
 //****** Default task ******
-gulp.task('default', ['html','sass', 'imagemin','fonts', 'js', 'minJS', 'browsersync'],  function() {
-	
+gulp.task('default', ['html', 'sass', 'imagemin', 'fonts', 'js', 'minJS', 'browsersync'], function () {
+
 	gulp.watch('frontend/html/**/*', ['html']);
-	
+
 	gulp.watch('frontend/sass/**/*', ['sass']);
-	
+
 	gulp.watch('frontend/img/**/*', ['imagemin']);
-	
+
 	gulp.watch('frontend/fonts/**/*', ['fonts']);
-	
+
 	gulp.watch('frontend/js/**/*', ['js']);
-	
+
 	gulp.watch('frontend/js/**/*.min.js', ['minJS']);
-	
+
 });
