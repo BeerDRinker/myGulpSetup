@@ -53,6 +53,12 @@ gulp.task('sass', function () {
 		.pipe(browsersync.reload({ stream: true }));
 });
 
+gulp.task('CSS_minCSS', function () {
+	return gulp.src(['frontend/sass/**/*.css', 'frontend/sass/**/*.min.css'])
+		.pipe(newer('public/css'))
+		.pipe(gulp.dest('public/css'));
+});
+
 
 //****** Image minification ******
 gulp.task('imagemin', function () {
@@ -109,11 +115,13 @@ gulp.task('browsersync', function () {
 
 
 //****** Default task ******
-gulp.task('default', ['html', 'sass', 'imagemin', 'fonts', 'js', 'minJS', 'browsersync'], function () {
+gulp.task('default', ['html', 'sass', 'CSS_minCSS', 'imagemin', 'fonts', 'js', 'minJS', 'browsersync'], function () {
 
 	gulp.watch('frontend/html/**/*', ['html']);
 
 	gulp.watch('frontend/sass/**/*', ['sass']);
+
+	gulp.watch('frontend/sass/**/*', ['CSS_minCSS']);
 
 	gulp.watch('frontend/img/**/*', ['imagemin']);
 

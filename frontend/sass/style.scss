@@ -1,3 +1,5 @@
+@import "foundation/settings";
+@import "foundation/functions";
 @import 'vars';
 @import 'normalize';
 @import 'fonts';
@@ -7,6 +9,10 @@
 /*=============================================
                GLOBALL SETTINGS
 =============================================*/
+
+html {
+    font-size: 16px;
+}
 
 .cf::after {
     content: '';
