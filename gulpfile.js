@@ -45,7 +45,7 @@ gulp.task('html', function () {
 gulp.task('sass', function () {
 	return gulp.src('frontend/sass/style.scss')
 		.pipe(sass().on('error', sass.logError))
-		.pipe(prefix('last 2 versions'))
+		.pipe(prefix({browsers: ['last 4 versions','ie 10']}))
 		.pipe(csscomb())
 		.pipe(cssbeautify())
 		//.pipe(cleanCSS({compatibility: 'ie8'}))
@@ -64,7 +64,8 @@ gulp.task('CSS_minCSS', function () {
 gulp.task('imagemin', function () {
 	gulp.src('frontend/img/**/*')
 		.pipe(newer('public/img/'))
-		.pipe(imagemin())
+		//.pipe(imagemin())
+		.pipe(imagemin({ optimizationLevel: 3, progressive: true, interlaced: true }))
 		.pipe(gulp.dest('public/img/'));
 });
 

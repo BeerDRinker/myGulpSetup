@@ -1,0 +1,23 @@
+{
+  "name": "myGulp",
+  "description": "project starting point",
+  "main": "index.js",
+  "authors": [
+    "Ros"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/BeerDRinker/myGulpSetup",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "devDependencies": {
+    "foundation": "^5.5.3",
+    "normalize-css": "normalize.css#^6.0.0",
+    "flexboxgrid": "^6.3.2",
+    "slick-carousel": "^1.6.0"
+  }
+}

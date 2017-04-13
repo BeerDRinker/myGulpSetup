@@ -1,25 +1,11 @@
-@import "foundation/settings";
-@import "foundation/functions";
+//@import "foundation";
+//@import "skeleton";
+@import "flexboxgrid";
 @import 'vars';
-@import 'normalize';
 @import 'fonts';
+@import "normalize.scss";
 @import 'best_practices';
+@import 'sections/header';
+@import 'sections/index';
+@import 'sections/footer';
 
-
-/*=============================================
-               GLOBALL SETTINGS
-=============================================*/
-
-html {
-    font-size: 16px;
-}
-
-.cf::after {
-    content: '';
-    display: table;
-    clear: both;
-}
-
-@import 'sections/_header';
-
-@import 'sections/_footer';
