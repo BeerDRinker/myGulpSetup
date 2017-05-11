@@ -1,3 +1,6 @@
 node_modules
 frontend/bower_components
 public
+temp
+*.png
+*.psd

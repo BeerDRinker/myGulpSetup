@@ -3,6 +3,7 @@
 const gulp = require('gulp');
 //const prepros = require('gulp-preprocess');
 const pug = require('gulp-pug');
+const htmlbeautify = require('gulp-html-beautify');
 const newer = require('gulp-newer')
 const sass = require('gulp-sass');
 const prefix = require('gulp-autoprefixer');
@@ -43,6 +44,9 @@ gulp.task('clean', function () {
 
 // Compiling HTML
 gulp.task('html', function () {
+	let options = {
+		indentSize: 2
+	};
 	gulp.src('frontend/html/**/!(_)*.pug')
 		.pipe(newer('frontend/html/**/!(_)*.pug'))
 		.pipe(pug({
@@ -56,6 +60,7 @@ gulp.task('html', function () {
 		.pipe(htmlhint.reporter())
 		//.pipe(htmlhint.failReporter())
 		//.pipe(htmlclean())
+		.pipe(htmlbeautify(options))
 		.pipe(gulp.dest('public'))
 		.pipe(browsersync.reload({ stream: true }));
 });
@@ -68,7 +73,7 @@ gulp.task('sass', function () {
 		.pipe(prefix({ browsers: ['last 4 versions', 'ie 10'] }))
 		.pipe(csscomb())
 		.pipe(cssbeautify())
-		//.pipe(cleanCSS({compatibility: 'ie8'}))
+		.pipe(cleanCSS({compatibility: 'ie8'}))
 		.pipe(gulp.dest('public/css'))
 		.pipe(browsersync.reload({ stream: true }));
 });
@@ -106,7 +111,7 @@ gulp.task('js', function () {
 			gutil.log(gutil.colors.bold('codeframe:') + '\n' + codeFrame);
 			this.emit('end');
 		})
-		//.pipe(uglify())
+		.pipe(uglify())
 		.pipe(gulp.dest('public/js'))
 		.pipe(browsersync.reload({ stream: true }));
 });
