@@ -18,6 +18,7 @@ const babel = require('gulp-babel');
 const gutil = require('gulp-util');
 const cssbeautify = require('gulp-cssbeautify');
 const csscomb = require('gulp-csscomb');
+const grupMediaQueries = require('gulp-group-css-media-queries');
 
 
 //const concat = require('gulp-concat');
@@ -27,20 +28,6 @@ const csscomb = require('gulp-csscomb');
 gulp.task('clean', function () {
 	del('public/*');
 });
-
-// //jade task
-// gulp.task('jade', function () {
-// 	return gulp.src(CONF.src+'/jade/**/!(_)*.jade')
-// 			//.pipe(changed(CONF.dev,{extension: '.html'}))
-// 			.pipe(jade({
-// 				pretty: true
-// 			})).on('error', function(error){
-// 				console.log(error.toString());
-// 				this.emit('end');
-// 			})
-// 			.pipe(gulp.dest('./'+CONF.dev))
-// 			.pipe(browserSync.reload({stream: true}));
-// });
 
 // Compiling HTML
 gulp.task('html', function () {
@@ -71,6 +58,7 @@ gulp.task('sass', function () {
 	return gulp.src('frontend/sass/style.scss')
 		.pipe(sass().on('error', sass.logError))
 		.pipe(prefix({ browsers: ['last 4 versions', 'ie 10'] }))
+		.pipe(grupMediaQueries())
 		.pipe(csscomb())
 		.pipe(cssbeautify())
 		.pipe(cleanCSS({compatibility: 'ie8'}))
